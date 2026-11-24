@@ -1,7 +1,12 @@
 'use strict';
 
 const express = require('express');
-const pool = require('./db');
+require('dotenv').config();
+
+const authRoutes = require('./routes/authRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const movieRoutes = require('./routes/movieRoutes');
+const watchlistRoutes = require('./routes/watchlistRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,15 +17,12 @@ app.get('/api', (req, res) => {
     res.json({ message: 'Welcome to FilmRecension API' });
 });
 
-app.get('/api/movies', async (req, res) => {
-    try {
-        const [movies] = await pool.query('SELECT id, title, genre, release_year FROM movies');
-        res.status(200).json(movies);
-    } catch (error) {
-        console.error('Could not fetch movies:', error.message);
-        res.status(500).json({ error: 'Could not fetch movies' });
-    }
-});
+app.use('/api', authRoutes);
+app.use('/api', movieRoutes);
+app.use('/api', reviewRoutes);
+app.use('/api', watchlistRoutes);
+
+app.use((req, res) => res.status(404).json({ error: 'Route not found' }));
 
 app.listen(PORT, () => {
     console.log(`FilmRecension API running on port ${PORT}`);
