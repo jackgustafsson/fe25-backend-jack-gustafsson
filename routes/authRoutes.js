@@ -7,6 +7,10 @@ const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
+// POST /auth/register
+// Registers a new user by validating the email address and password.
+// The password is hashed with bcrypt before being saved to the database.
+// Also checks if the email address is already registered.
 router.post('/auth/register', async (req, res) => {
     const { email, password } = req.body;
 
@@ -50,7 +54,9 @@ router.post('/auth/register', async (req, res) => {
     }
 });
 
-
+// POST /auth/login
+// Logs in an existing user by checking the email address and password against the data in the database.
+// If the login is successful, a JWT token is created that is used to authenticate the user when calling protected API routes.
 router.post('/auth/login', async (req, res) => {
     const { email, password } = req.body;
 

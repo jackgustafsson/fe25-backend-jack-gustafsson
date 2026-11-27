@@ -1,5 +1,9 @@
 'use strict';
 
+// The main file that starts the FilmRecension API and connects Express with the project's routes.
+// Handles incoming JSON data, registers the API's various route files, and listens on the specified port. 
+// Also contains a 404 handler for routes that do not exist.
+
 const express = require('express');
 require('dotenv').config();
 

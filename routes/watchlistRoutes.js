@@ -6,14 +6,17 @@ const pool = require('../config/db');
 const authenticateToken = require('../middleware/auth');
 const router = express.Router();
 
+// GET /watchlist
+// Retrieves the logged-in user's watchlist and associated movie information.
+// JOIN is used to combine information from the watchlist and movies tables.
 router.get('/watchlist', authenticateToken, async (req, res) => {
     const userId = req.user.id;
 
     try {
         const [movies] = await pool.execute(
-            `SELECT movies.id, movies.title, movies.genre, movies.release_year
+            `SELECT movies.id, movies.title, movies.genre, movies.release_year, watchlist.added_at
              FROM watchlist JOIN movies ON watchlist.movie_id = movies.id
-             WHERE watchlist.user_id = ? ORDER BY movies.title`, [userId]
+             WHERE watchlist.user_id = ? ORDER BY watchlist.added_at DESC`, [userId]
         );
 
         res.status(200).json(movies);
@@ -24,6 +27,9 @@ router.get('/watchlist', authenticateToken, async (req, res) => {
     }
 });
 
+// POST /watchlist/:movieId
+// Adds a movie to the logged in user's watchlist.
+// Checks that the movie ID is valid and that the movie exists in the database.
 router.post('/watchlist/:movieId', authenticateToken, async (req, res) => {
     const userId = req.user.id;
     const movieId = Number(req.params.movieId);
@@ -56,6 +62,9 @@ router.post('/watchlist/:movieId', authenticateToken, async (req, res) => {
     }
 });
 
+// DELETE /watchlist/:movieId
+// Removes a movie from the logged in user's watchlist.
+// Checks that the movie is in the user's list before confirming the deletion.
 router.delete('/watchlist/:movieId', authenticateToken, async (req, res) => {
     const userId = req.user.id;
     const movieId = Number(req.params.movieId);

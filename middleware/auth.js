@@ -2,6 +2,9 @@
 
 const jwt = require('jsonwebtoken');
 
+// Middleware that protects the API routes by checking the user's JWT token.
+// Verifies that the token exists and is valid, and then associates the user's ID with the request.
+// If the token is missing or invalid, a 401 error message is sent.
 function authenticateToken(req, res, next) {
     const authHeader = req.headers.authorization;
 

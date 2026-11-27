@@ -5,6 +5,9 @@ const pool = require('../config/db');
 const Movie = require('../models/Movie');
 const router = express.Router();
 
+// GET /movies
+// Retrieves all movies from the database and converts each database row into a Movie object using Movie.fromRow().
+// Returns the movies as JSON.
 router.get('/movies', async (req, res) => {
     try {
         const [rows] = await pool.query('SELECT id, title, genre, release_year FROM movies');
@@ -17,6 +20,10 @@ router.get('/movies', async (req, res) => {
     }
 });
 
+// GET /movies/:id
+// Retrieves a specific movie based on its ID.
+// Checks that the ID number is valid and that the movie exists in the database.
+// If the movie is found, it is converted to a Movie object and returned as JSON.
 router.get('/movies/:id', async (req, res) => {
     const movieId = Number(req.params.id);
 

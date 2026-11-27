@@ -7,6 +7,10 @@ const authenticateToken = require('../middleware/auth');
 
 const router = express.Router();
 
+// GET /movies/:movieId/reviews
+// Retrieves all reviews for a specific movie.
+// First checks that the movie ID is valid and that the movie exists in the database.
+// The reviews are sorted so that the most recently created ones are displayed first.
 router.get('/movies/:movieId/reviews', async (req, res) => {
     const movieId = Number(req.params.movieId);
 
@@ -34,7 +38,11 @@ router.get('/movies/:movieId/reviews', async (req, res) => {
     }
 });
 
-
+// POST /movies/:movieId/reviews
+// Creates a new review for a specific movie.
+// Requires the user to be logged in and that the movie ID, rating, and comment are valid. 
+// Uses the Review class to check the rating before saving the review to the database.
+// Each user is only allowed to create one review per movie.
 router.post('/movies/:movieId/reviews', authenticateToken, async (req, res) => {
     const movieId = Number(req.params.movieId);
     const userId = req.user.id;
@@ -95,7 +103,12 @@ router.post('/movies/:movieId/reviews', authenticateToken, async (req, res) => {
     }
 });
 
-
+// PATCH /reviews/:id
+// Updates an existing review.
+// Requires the user to be logged in and that the review belongs to the user.
+// The user can change the rating, comment, or both.
+// Validates the input and checks ownership before saving the change.
+// Returns the updated review as JSON.
 router.patch('/reviews/:id', authenticateToken, async (req, res) => {
     const reviewId = Number(req.params.id);
     const userId = req.user.id;
