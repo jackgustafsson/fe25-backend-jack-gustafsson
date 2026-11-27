@@ -25,14 +25,63 @@ The API is built with Node.js, Express, and MySQL. It uses JWT authentication to
 
 ## Installation
 **1. Clone the repository**
+
+Open your terminal (Terminal on macOS/Linux or Command Prompt/PowerShell on Windows) and run:
 ```
 git clone <repository-url>
 cd FilmRecension
 ```
-**2. Install dependencies**
+**2. Install Node.js and npm**
+
+Make sure Node.js and npm are installed on your system.
+
+Windows:
+1. Download Node.js from https://nodejs.org/.
+2. Choose the LTS version.
+3. Run the installer and follow the installation instructions.
+4. Open Command Prompt or PowerShell and verify the installation:
+```
+node -v
+npm -v
+```
+macOS:
+1. Download Node.js from https://nodejs.org/.
+2. Choose the LTS version and download the macOS installer.
+3. Open the downloaded .pkg file and follow the installation instructions.
+4. Open Terminal and verify the installation:
+```
+node -v
+npm -v
+```
+Alternatively, Node.js can be installed using Homebrew:
+```
+brew install node
+```
+Linux (Ubuntu/Debian):
+
+1. Open Terminal.
+2. Update the package list:
+```
+sudo apt update
+```
+3. Install Node.js and npm:
+```
+sudo apt install nodejs npm
+```
+4. Verify the installation:
+```
+node -v
+npm -v
+```
+For other Linux distributions, use the appropriate package manager or download Node.js from https://nodejs.org/.
+
+**3. Install dependencies**
+
+Navigate to the FilmRecension project directory and run:
 ```
 npm install
 ```
+This installs the dependencies listed in package.json.
 
 **3. Configure enviroment variables**
 
